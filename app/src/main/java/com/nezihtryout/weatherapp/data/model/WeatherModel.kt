@@ -8,5 +8,6 @@ data class WeatherModel(
     @SerializedName("timezone") val timezone : String? = null,
     @SerializedName("timezone_offset") val timezone_offset : Int? = null,
     @SerializedName("current") val current : CurrentModel? = null,
-    @SerializedName("hourly") val hourly : HourlyModel? = null
+    @SerializedName("hourly") val hourly : Array<HourlyModel>? = null,
+    @SerializedName("daily") val daily : Array<DailyModel>? = null
 )

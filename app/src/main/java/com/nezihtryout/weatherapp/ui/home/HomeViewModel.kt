@@ -15,15 +15,16 @@ class HomeViewModel : ViewModel(){
             // TEMP
             var baseUrl : String = "https://api.openweathermap.org/"
             var appId : String = "60b808dc00e5a64209bb6bedf0fc8bb3"
-            var lat = 35.0
-            var lon = 35.0
+            var lat = 41.0424606
+            var lon = 29.0085191
 
             val retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val service = retrofit.create(WeatherServices::class.java)
-            val call = service.getCurrentWeatherData(lat, lon, null, appId)
+            val oneCallAPIFormat = "minutely,alerts"
+            val call = service.getCurrentWeatherData(lat, lon, oneCallAPIFormat , appId)
             println("Call= ${call.request()}")
             call.enqueue(object : Callback<WeatherModel> {
                 override fun onResponse(
@@ -31,6 +32,17 @@ class HomeViewModel : ViewModel(){
                     response: Response<WeatherModel>
                 ) {
                     Log.e("Call.True",response.message())
+                    val weatherResponse = response.body()
+                    val stringBuilder = "Weather: " +
+                            weatherResponse?.current?.weather!![0]?.main+
+                            "\n" +
+                            "Place: " +
+                            weatherResponse?.timezone +
+                            "\n" +
+                            "Lat&Lon: " +
+                            weatherResponse?.lat + "," + weatherResponse?.lon
+
+                    println(stringBuilder)
                 }
 
                 override fun onFailure(call: Call<WeatherModel>, t: Throwable) {

@@ -1,4 +1,4 @@
-package com.nezihtryout.weatherapp.data.model
+package com.nezihtryout.weatherapp.data.model.submodels
 
 import com.google.gson.annotations.SerializedName
 
