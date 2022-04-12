@@ -11,12 +11,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 class HomeViewModel : ViewModel(){
 
     fun APIRead(){
+        // TODO: This Should be on Repository
+
         Thread{
             // TEMP
-            var baseUrl : String = "https://api.openweathermap.org/"
-            var appId : String = "60b808dc00e5a64209bb6bedf0fc8bb3"
-            var lat = 41.0424606
-            var lon = 29.0085191
+            val baseUrl : String = "https://api.openweathermap.org/"
+            val appId : String = "60b808dc00e5a64209bb6bedf0fc8bb3"
+            val lat = 41.0424606
+            val lon = 29.0085191
 
             val retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -34,13 +36,13 @@ class HomeViewModel : ViewModel(){
                     Log.e("Call.True",response.message())
                     val weatherResponse = response.body()
                     val stringBuilder = "Weather: " +
-                            weatherResponse?.current?.weather!![0]?.main+
+                            weatherResponse?.current?.weather!![0].main +
                             "\n" +
                             "Place: " +
-                            weatherResponse?.timezone +
+                            weatherResponse.timezone +
                             "\n" +
                             "Lat&Lon: " +
-                            weatherResponse?.lat + "," + weatherResponse?.lon
+                            weatherResponse.lat + "," + weatherResponse.lon
 
                     println(stringBuilder)
                 }
@@ -51,6 +53,6 @@ class HomeViewModel : ViewModel(){
 
             }
             )
-        }.start()
+        }.run()
     }
 }

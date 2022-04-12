@@ -15,25 +15,5 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         val policy = ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
         super.onCreate(savedInstanceState)
-        navigateUser()
-        /*if (savedInstanceState == null) {
-            // Adding Fragment
-            supportFragmentManager.commit {
-                setReorderingAllowed(true)
-                add<HomeFragment>(R.id.fragment_container_view)
-            }
-        }*/
-    }
-
-
-    private fun navigateUser(){
-        val navHostFragment = (supportFragmentManager.findFragmentById(R.id.fragment_container_view)
-                as NavHostFragment)
-        val inflater = navHostFragment.navController.navInflater
-        navHostFragment.navController.graph = getNavGraph(inflater)
-    }
-
-    private fun getNavGraph(inflater: NavInflater): NavGraph {
-        return inflater.inflate(R.navigation.nav_graph)
     }
 }
