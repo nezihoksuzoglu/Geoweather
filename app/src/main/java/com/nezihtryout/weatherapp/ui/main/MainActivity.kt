@@ -8,6 +8,7 @@ import androidx.navigation.NavGraph
 import androidx.navigation.NavInflater
 import androidx.navigation.fragment.NavHostFragment
 import com.nezihtryout.weatherapp.R
+import com.nezihtryout.weatherapp.util.height
 
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.nezihtryout.weatherapp.R
 import com.nezihtryout.weatherapp.databinding.FragmentHomeBinding
+import com.nezihtryout.weatherapp.util.height
 import java.net.URL
 
 class HomeFragment : Fragment() {
@@ -32,7 +33,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getAPIData()
-        Log.e("onViewCreated.Created","onViewCreated")
     }
 
     private fun getAPIData(){
