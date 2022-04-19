@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-android'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -70,4 +72,12 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
 
     implementation "com.squareup.retrofit2:converter-gson:2.5.0"
+
+    // Dependency Injection - Hilt
+    implementation("com.google.dagger:hilt-android:2.40.5")
+    kapt("com.google.dagger:hilt-android-compiler:2.40.5")
+
+}
+kapt {
+    correctErrorTypes = true
 }

@@ -1,16 +1,14 @@
-package com.nezihtryout.weatherapp.ui.home
+package com.nezihtryout.weatherapp.ui.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import com.nezihtryout.weatherapp.R
 import com.nezihtryout.weatherapp.databinding.FragmentHomeBinding
-import com.nezihtryout.weatherapp.util.height
-import java.net.URL
+import com.nezihtryout.weatherapp.viewmodel.HomeViewModel
 
 class HomeFragment : Fragment() {
 
@@ -21,22 +19,34 @@ class HomeFragment : Fragment() {
     // Create a viewModel
     private val viewModel: HomeViewModel by activityViewModels()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        getAPIData()
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        createUI()
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        getAPIData()
+    @SuppressLint("SetTextI18n")
+    private fun createUI(){
+        viewModel.weather.observe(viewLifecycleOwner) {
+            println("Did happen ${it.timezone}")
+            binding.placeTv.text = it.timezone
+            val degreeAsInt = it.current?.feels_like?.minus(273)?.toInt()
+            binding.degreeTv.text = "${degreeAsInt.toString()}°C"
+        }
+        // TODO:
     }
 
     private fun getAPIData(){
-        viewModel.APIRead()
+        viewModel.readWeatherFromAPI()
     }
 
     override fun onDestroyView() {
