@@ -4,18 +4,18 @@ import com.google.gson.annotations.SerializedName
 import com.nezihtryout.weatherapp.data.model.submodels.WeatherDescModel
 
 data class HourlyModel(
-    @SerializedName("dt") val dt : Float? = null,
-    @SerializedName("temp") val temp : Double? = null,
-    @SerializedName("feels_like") val feels_like : Double? = null,
-    @SerializedName("pressure") val pressure : Int? = null,
-    @SerializedName("humidity") val humidity : Int? = null,
-    @SerializedName("dew_point") val dew_point : Double? = null,
-    @SerializedName("uvi") val uvi : Double? = null,
-    @SerializedName("clouds") val clouds : Int? = null,
-    @SerializedName("visibility") val visibility : Int? = null,
-    @SerializedName("wind_speed") val wind_speed : Double? = null,
-    @SerializedName("wind_deg") val wind_deg : Int? = null,
-    @SerializedName("wind_gust") val wind_gust : Double? = null,
-    @SerializedName("weather") val weather : Array<WeatherDescModel>? = null,
-    @SerializedName("pop") val pop : Double? = null
+    var dt : Long? = null,
+    var temp : String? = null,
+    //val feels_like : Double? = null,
+    //val pressure : Int? = null,
+    //val humidity : Int? = null,
+    //val dew_point : Double? = null,
+    //val uvi : Double? = null,
+    //val clouds : Int? = null,
+    //val visibility : Int? = null,
+    //val wind_speed : Double? = null,
+    //val wind_deg : Int? = null,
+    //val wind_gust : Double? = null,
+    val weather : Array<WeatherDescModel>? = null,
+    //val pop : Double? = null
 )

@@ -1,52 +1,67 @@
 package com.nezihtryout.weatherapp.ui.fragment
 
-import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.nezihtryout.weatherapp.adapter.DailyItemAdapter
+import com.nezihtryout.weatherapp.adapter.HourlyItemAdapter
+import com.nezihtryout.weatherapp.data.Resource
+import com.nezihtryout.weatherapp.data.model.HourlyModel
+import com.nezihtryout.weatherapp.data.model.WeatherModel
 import com.nezihtryout.weatherapp.databinding.FragmentHomeBinding
+import com.nezihtryout.weatherapp.util.latitude
+import com.nezihtryout.weatherapp.util.longitude
 import com.nezihtryout.weatherapp.viewmodel.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     // View Binding
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    // Create a viewModel
-    private val viewModel: HomeViewModel by activityViewModels()
+    private val viewModel: HomeViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        getAPIData()
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var linearLayoutManagerDaily : LinearLayoutManager
+    private lateinit var linearLayoutManagerHourly : LinearLayoutManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        createUI()
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        createUI()
         return binding.root
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun createUI(){
-        viewModel.weather.observe(viewLifecycleOwner) {
-            println("Did happen ${it.timezone}")
-            binding.placeTv.text = it.timezone
-            val degreeAsInt = it.current?.feels_like?.minus(273)?.toInt()
-            binding.degreeTv.text = "${degreeAsInt.toString()}°C"
-        }
-        // TODO:
-    }
+    private fun createUI() {
+        viewModel.readWeatherViewModel(latitude, longitude)
+        val weatherObserver = Observer<Resource<WeatherModel>> { weatherModel ->
+            // Creating UI
+            binding.placeTv.text = weatherModel.data?.timezone
+            binding.degreeTv.text = weatherModel.data?.current?.temp.toString()
 
-    private fun getAPIData(){
-        viewModel.readWeatherFromAPI()
+            // Adapters
+            val adapterHourly = HourlyItemAdapter(weatherModel.data?.hourly)
+            linearLayoutManagerHourly = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            binding.hourlyRecyclerView.layoutManager = linearLayoutManagerHourly
+            binding.hourlyRecyclerView.adapter = adapterHourly
+
+            val adapterDaily = DailyItemAdapter(weatherModel.data?.daily)
+            linearLayoutManagerDaily = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            binding.dailyRecyclerView.layoutManager = linearLayoutManagerDaily
+            binding.dailyRecyclerView.adapter = adapterDaily
+        }
+        viewModel.locationTaskInfo.observe(viewLifecycleOwner, weatherObserver)
     }
 
     override fun onDestroyView() {

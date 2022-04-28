@@ -3,11 +3,11 @@ package com.nezihtryout.weatherapp.data.model
 import com.google.gson.annotations.SerializedName
 
 data class WeatherModel(
-    @SerializedName("lat") val lat : Double? = null,
-    @SerializedName("lon") val lon : Double? = null,
-    @SerializedName("timezone") val timezone : String? = null,
-    @SerializedName("timezone_offset") val timezone_offset : Int? = null,
-    @SerializedName("current") val current : CurrentModel? = null,
-    @SerializedName("hourly") val hourly : Array<HourlyModel>? = null,
-    @SerializedName("daily") val daily : Array<DailyModel>? = null
+    val lat : Double? = null,
+    val lon : Double? = null,
+    val timezone : String? = null,
+    val timezone_offset : Int? = null,
+    val current : CurrentModel? = null,
+    val hourly : Array<HourlyModel>? = null,
+    val daily : Array<DailyModel>? = null
 )
