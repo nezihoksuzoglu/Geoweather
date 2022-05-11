@@ -1,7 +1,5 @@
 package com.nezihtryout.weatherapp.data.model
 
-import com.google.gson.annotations.SerializedName
-
 data class WeatherModel(
     val lat : Double? = null,
     val lon : Double? = null,

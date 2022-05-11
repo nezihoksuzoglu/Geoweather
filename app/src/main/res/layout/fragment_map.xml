@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragment.MapFragment">
+
+    <com.huawei.hms.maps.MapView
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/huawei_map_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        map:layout_constraintTop_toTopOf="parent"
+        map:layout_constraintLeft_toLeftOf="parent"
+        map:layout_constraintRight_toRightOf="parent"
+        map:layout_constraintBottom_toTopOf="@id/map_fragment_button"
+        map:cameraTargetLat="48.893478"
+        map:cameraTargetLng="2.334595"
+        map:cameraZoom="10"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/map_fragment_button"
+        android:text="@string/get_location"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:backgroundTint="@color/sky_blue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

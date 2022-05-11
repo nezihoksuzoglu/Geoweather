@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="white_60percent">#99FFFFFF</color>
     <color name="sky_blue">#00C0FF</color>
+    <color name="sky_blue_60percent">#9900C0FF</color>
 </resources>

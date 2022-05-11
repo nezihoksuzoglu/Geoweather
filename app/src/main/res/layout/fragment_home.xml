@@ -38,7 +38,6 @@
         android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/daily_recycler_view"
         tools:listitem="@layout/daily_weather"
@@ -51,4 +50,13 @@
         android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/map_button"
+        android:text="@string/map_button"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:backgroundTint="@color/sky_blue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

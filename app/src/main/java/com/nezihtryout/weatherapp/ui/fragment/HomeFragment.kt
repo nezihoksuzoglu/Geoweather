@@ -1,25 +1,29 @@
 package com.nezihtryout.weatherapp.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.huawei.hms.location.*
+import com.nezihtryout.weatherapp.R
 import com.nezihtryout.weatherapp.adapter.DailyItemAdapter
 import com.nezihtryout.weatherapp.adapter.HourlyItemAdapter
-import com.nezihtryout.weatherapp.data.Resource
-import com.nezihtryout.weatherapp.data.model.HourlyModel
+import com.nezihtryout.weatherapp.data.CityData
+import com.nezihtryout.weatherapp.data.LocationData
+import com.nezihtryout.weatherapp.data.WeatherData
 import com.nezihtryout.weatherapp.data.model.WeatherModel
+import com.nezihtryout.weatherapp.data.model.submodels.CityModel
 import com.nezihtryout.weatherapp.databinding.FragmentHomeBinding
-import com.nezihtryout.weatherapp.util.latitude
-import com.nezihtryout.weatherapp.util.longitude
+import com.nezihtryout.weatherapp.util.LocationManagerClass
+import com.nezihtryout.weatherapp.util.PermissionManager
 import com.nezihtryout.weatherapp.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -27,6 +31,9 @@ class HomeFragment : Fragment() {
     // View Binding
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    private val TAG = "HomeFragment"
+    @Inject
+    lateinit var mLocationRequest : LocationRequest
 
     private val viewModel: HomeViewModel by viewModels()
 
@@ -44,8 +51,34 @@ class HomeFragment : Fragment() {
     }
 
     private fun createUI() {
-        viewModel.readWeatherViewModel(latitude, longitude)
-        val weatherObserver = Observer<Resource<WeatherModel>> { weatherModel ->
+        if( LocationData.locationDimenInfo.value == null){
+            askLocationPermission()
+            checkLocationSettings()
+            getLocation()
+        }
+        setOnClicks()
+        setLiveDataConnection()
+    }
+
+    private fun setOnClicks(){
+        binding.mapButton.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_mapFragment)
+        }
+    }
+
+    private fun setLiveDataConnection(){
+        val dimenObserver = Observer<Array<Double>> {
+            viewModel.readWeatherViewModel(it[0],it[1])
+        }
+        LocationData.locationDimenInfo.observe(viewLifecycleOwner, dimenObserver)
+
+        val cityObserver = Observer<CityData<CityModel>> { cityModel ->
+            binding.placeTv.text = cityModel.data?.name
+        }
+        viewModel.cityDataInfo.observe(viewLifecycleOwner, cityObserver)
+
+        val weatherObserver = Observer<WeatherData<WeatherModel>> { weatherModel ->
+
             // Creating UI
             binding.placeTv.text = weatherModel.data?.timezone
             binding.degreeTv.text = weatherModel.data?.current?.temp.toString()
@@ -64,8 +97,30 @@ class HomeFragment : Fragment() {
         viewModel.locationTaskInfo.observe(viewLifecycleOwner, weatherObserver)
     }
 
+    private fun askLocationPermission(){
+        if (context != null && activity != null){
+            val obj = PermissionManager()
+            obj.askLocationPermission(requireContext(), requireActivity())
+        }
+    }
+
+    private fun checkLocationSettings(){
+        val settingsClient = LocationServices.getSettingsClient(context)
+        mLocationRequest = LocationRequest()
+        val obj = LocationManagerClass()
+        obj.checkLocationData(mLocationRequest, settingsClient)
+    }
+
+
+    private fun getLocation(){
+        val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
+        val obj = LocationManagerClass()
+        obj.getLocation(fusedLocationProviderClient)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 }

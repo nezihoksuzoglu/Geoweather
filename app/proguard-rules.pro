@@ -1,4 +1,15 @@
 # Add project specific ProGuard rules here.
+-ignorewarnings
+-keepattributes *Annotation*
+-keepattributes Exceptions
+-keepattributes InnerClasses
+-keepattributes Signature
+-keepattributes SourceFile,LineNumberTable
+-keep class com.huawei.hianalytics.**{*;}
+-keep class com.huawei.updatesdk.**{*;}
+-keep class com.huawei.hms.**{*;}
+-keep public class com.huawei.location.nlp.network.** {*; }
+-keep class com.huawei.wisesecurity.ucs.**{*;}
 # You can control the set of applied configuration files using the
 # proguardFiles setting in build.gradle.
 #

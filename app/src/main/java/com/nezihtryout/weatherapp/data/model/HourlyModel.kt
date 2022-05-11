@@ -1,6 +1,5 @@
 package com.nezihtryout.weatherapp.data.model
 
-import com.google.gson.annotations.SerializedName
 import com.nezihtryout.weatherapp.data.model.submodels.WeatherDescModel
 
 data class HourlyModel(
