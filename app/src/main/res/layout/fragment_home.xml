@@ -6,7 +6,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/sky_blue"
     android:orientation="vertical">
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_home_connected_constraint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
         android:id="@+id/top_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="220sp"
@@ -17,6 +21,9 @@
         android:orientation="vertical">
         <TextView
             android:id="@+id/place_tv"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_40sp"
             android:layout_width="wrap_content"
@@ -28,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/hourly_recycler_view"
         tools:listitem="@layout/hourly_weather"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -38,7 +45,7 @@
         android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <androidx.recyclerview.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/daily_recycler_view"
         tools:listitem="@layout/daily_weather"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -50,7 +57,7 @@
         android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <com.google.android.material.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
         android:id="@+id/map_button"
         android:text="@string/map_button"
         android:insetTop="0dp"
@@ -59,4 +66,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_home_no_connection_constraint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        <TextView
+            android:text="@string/no_connection_text"
+            android:layout_width="match_parent"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/check_connection_button"
+            android:gravity="center"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/check_connection_button"
+            android:text="@string/check_connection_button"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:backgroundTint="@color/sky_blue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

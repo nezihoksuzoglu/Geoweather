@@ -1,13 +1,8 @@
 package com.nezihtryout.weatherapp.data.di
 
 import android.content.Context
-import android.util.Log
-import com.huawei.hmf.tasks.OnSuccessListener
-import com.huawei.hms.location.FusedLocationProviderClient
 import com.huawei.hms.location.LocationRequest
-import com.huawei.hms.location.LocationServices
 import com.nezihtryout.weatherapp.application.BaseApplication
-import com.nezihtryout.weatherapp.data.LocationData
 import com.nezihtryout.weatherapp.data.domain.WeatherServices
 import com.nezihtryout.weatherapp.util.baseURL
 import dagger.Module

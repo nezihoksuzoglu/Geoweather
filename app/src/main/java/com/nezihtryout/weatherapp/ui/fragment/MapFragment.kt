@@ -2,7 +2,6 @@ package com.nezihtryout.weatherapp.ui.fragment
 
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +10,11 @@ import com.huawei.hms.maps.*
 import com.huawei.hms.maps.model.LatLng
 import com.huawei.hms.maps.model.Marker
 import com.huawei.hms.maps.model.MarkerOptions
-import com.nezihtryout.weatherapp.data.LocationData
 import com.nezihtryout.weatherapp.databinding.FragmentMapBinding
 import com.nezihtryout.weatherapp.util.PermissionManager
 import com.nezihtryout.weatherapp.util.huaweiAPIKey
+import com.nezihtryout.weatherapp.util.latitude
+import com.nezihtryout.weatherapp.util.longitude
 
 
 class MapFragment : Fragment() {
@@ -37,8 +37,8 @@ class MapFragment : Fragment() {
 
         Log.d(TAG, "callback:")
         hMap = huaweiMap
-        if (LocationData.locationDimenInfo.value != null){
-            locationValue = LocationData.locationDimenInfo.value!!
+        if (latitude != -500.0 && longitude != -500.0){
+            locationValue = arrayOf(latitude, longitude)
         }
         if (hMap != null){
             hMap?.isMyLocationEnabled = false
@@ -48,7 +48,7 @@ class MapFragment : Fragment() {
             }
             hMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(locationValue[0], locationValue[1]), 10f))
             val obj = PermissionManager()
-            obj.askLocationPermission(requireContext(),requireActivity())
+            obj.hasLocationPermission(requireContext(),requireActivity())
             addMarker(locationValue)
             hMap?.setOnMapClickListener {
                 if(mMarker != null){
@@ -92,7 +92,8 @@ class MapFragment : Fragment() {
         binding.mapFragmentButton.setOnClickListener{
             if (mMarker?.position?.latitude != null && mMarker?.position?.longitude != null){
                 val array = arrayOf(mMarker?.position?.latitude!!,mMarker?.position?.longitude!!)
-                LocationData.setDimensions(array)
+                latitude = mMarker?.position?.latitude!!
+                longitude = mMarker?.position?.longitude!!
                 if (activity != null){
                     requireActivity().onBackPressed()
                 }

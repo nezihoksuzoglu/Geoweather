@@ -88,7 +88,7 @@ class HomeRepository @Inject constructor(
 
     private fun editDailyTimeData(data : String) : String {
         return try {
-            val sdf = SimpleDateFormat("EEEE")
+            val sdf = SimpleDateFormat("EEEE") // TODO: Should've change that?
             val dateFormat = Date(data.toLong().times(1000))
             sdf.format(dateFormat)
         } catch (e : Exception){

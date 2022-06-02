@@ -25,6 +25,7 @@ class HomeViewModel @Inject constructor(
     private val _cityDataInfo: MutableLiveData<CityData<CityModel>> = MutableLiveData()
     val cityDataInfo: LiveData<CityData<CityModel>> get() = _cityDataInfo
 
+
     private val TAG = "viewModel"
 
     fun readWeatherViewModel(lat : Double,lon : Double){
