@@ -65,7 +65,7 @@ class MapFragment : Fragment() {
         // Get current location
         val options = MarkerOptions()
             .position(LatLng(locationValue[0],locationValue[1]))
-            .draggable(true)
+            //.draggable(true)
         mMarker = hMap?.addMarker(options)
     }
 
@@ -91,7 +91,6 @@ class MapFragment : Fragment() {
     private fun onClicks(){
         binding.mapFragmentButton.setOnClickListener{
             if (mMarker?.position?.latitude != null && mMarker?.position?.longitude != null){
-                val array = arrayOf(mMarker?.position?.latitude!!,mMarker?.position?.longitude!!)
                 latitude = mMarker?.position?.latitude!!
                 longitude = mMarker?.position?.longitude!!
                 if (activity != null){
