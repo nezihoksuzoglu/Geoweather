@@ -13,7 +13,7 @@ interface WeatherServices {
     suspend fun getWeatherData(
         @Query("lat") lat: Double,
         @Query("lon") lon: Double,
-        @Query("exclude") exclude : String?,
+        @Query("exclude") exclude: String?,
         @Query("appid") app_id: String,
         @Query("units") units: String
     ): Response<WeatherModel>
@@ -24,5 +24,4 @@ interface WeatherServices {
         @Query("lon") lon: Double,
         @Query("appid") app_id: String
     ): Response<CityModel>
-    // https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude=minutely,alerts,daily&appid=60b808dc00e5a64209bb6bedf0fc8bb3
 }

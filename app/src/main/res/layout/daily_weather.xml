@@ -12,7 +12,7 @@
         android:layout_marginHorizontal="@dimen/margin_10sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <ImageView
         android:id="@+id/weather_iv_daily"
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/day_tv"
-        app:layout_constraintRight_toLeftOf="@id/day_deg_tv"/>
+        app:layout_constraintRight_toLeftOf="@id/day_deg_tv" />
 
     <TextView
         android:id="@+id/day_deg_tv"
@@ -33,7 +33,7 @@
         android:layout_marginHorizontal="@dimen/margin_10sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/night_deg_tv"/>
+        app:layout_constraintRight_toLeftOf="@id/night_deg_tv" />
 
     <TextView
         android:id="@+id/night_deg_tv"
@@ -43,7 +43,7 @@
         android:layout_marginHorizontal="@dimen/margin_10sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

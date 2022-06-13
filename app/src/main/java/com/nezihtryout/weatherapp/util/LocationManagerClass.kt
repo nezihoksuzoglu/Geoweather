@@ -1,13 +1,14 @@
 package com.nezihtryout.weatherapp.util
 
 import android.util.Log
-import com.huawei.hmf.tasks.OnSuccessListener
-import com.huawei.hms.location.*
+import com.huawei.hms.location.LocationRequest
+import com.huawei.hms.location.LocationSettingsRequest
+import com.huawei.hms.location.SettingsClient
 
 class LocationManagerClass {
     private val TAG = "LocationManager"
 
-    fun checkLocationData(mLocationRequest : LocationRequest, settingsClient : SettingsClient){
+    fun checkLocationData(mLocationRequest: LocationRequest, settingsClient: SettingsClient) {
         val builder = LocationSettingsRequest.Builder()
         builder.addLocationRequest(mLocationRequest)
         val locationSettingsRequest = builder.build()

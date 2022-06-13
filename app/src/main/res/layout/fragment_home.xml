@@ -6,88 +6,98 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/sky_blue"
     android:orientation="vertical">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragment_home_connected_constraint"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
-        android:id="@+id/top_linear_layout"
-        android:layout_width="match_parent"
-        android:layout_height="220sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:gravity="center"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/place_tv"
-            android:textAlignment="center"
+            android:id="@+id/top_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="220sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             android:gravity="center"
-            android:layout_gravity="center"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_40sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/degree_tv"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_30sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/place_tv"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_40sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/degree_tv"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_30sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/hourly_recycler_view"
-        tools:listitem="@layout/hourly_weather"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top_linear_layout"
-        android:orientation="horizontal"
-        android:scrollbars="none"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+            android:id="@+id/hourly_recycler_view"
+            tools:listitem="@layout/hourly_weather"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/top_linear_layout"
+            android:orientation="horizontal"
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/daily_recycler_view"
-        tools:listitem="@layout/daily_weather"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:paddingTop="@dimen/padding_20sp"
-        app:layout_constraintTop_toBottomOf="@id/hourly_recycler_view"
-        android:layout_weight="0.6"
-        android:orientation="vertical"
-        android:scrollbars="none"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+            android:id="@+id/daily_recycler_view"
+            tools:listitem="@layout/daily_weather"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:paddingTop="@dimen/padding_20sp"
+            app:layout_constraintTop_toBottomOf="@id/hourly_recycler_view"
+            android:layout_weight="0.6"
+            android:orientation="vertical"
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <com.google.android.material.button.MaterialButton
-        android:id="@+id/map_button"
-        android:text="@string/map_button"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:backgroundTint="@color/sky_blue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+            android:id="@+id/map_button"
+            android:text="@string/map_button"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:backgroundTint="@color/sky_blue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fragment_home_no_connection_constraint"
+        android:id="@+id/fragment_error_constraint"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
+
         <TextView
-            android:text="@string/no_connection_text"
+            android:id="@+id/error_text"
             android:layout_width="match_parent"
             android:textColor="@color/white"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/check_connection_button"
-            android:gravity="center"/>
+            app:layout_constraintBottom_toTopOf="@id/try_again_button"
+            android:gravity="center" />
+
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/check_connection_button"
+            android:id="@+id/try_again_button"
             android:text="@string/check_connection_button"
             android:insetTop="0dp"
             android:insetBottom="0dp"
             android:backgroundTint="@color/sky_blue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

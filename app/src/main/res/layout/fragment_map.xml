@@ -7,8 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.MapFragment">
 
-    <com.huawei.hms.maps.MapView
-        xmlns:map="http://schemas.android.com/apk/res-auto"
+    <com.huawei.hms.maps.MapView xmlns:map="http://schemas.android.com/apk/res-auto"
         android:id="@+id/huawei_map_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,7 +17,8 @@
         map:layout_constraintBottom_toTopOf="@id/map_fragment_button"
         map:cameraTargetLat="48.893478"
         map:cameraTargetLng="2.334595"
-        map:cameraZoom="10"/>
+        map:cameraZoom="10" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/map_fragment_button"
         android:text="@string/get_location"
@@ -27,5 +27,5 @@
         android:backgroundTint="@color/sky_blue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

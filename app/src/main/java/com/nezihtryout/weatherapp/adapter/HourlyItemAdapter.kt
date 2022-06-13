@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nezihtryout.weatherapp.R
 import com.nezihtryout.weatherapp.data.model.HourlyModel
 
-class HourlyItemAdapter(private val dataSet: Array<HourlyModel>?) :
+class HourlyItemAdapter(private val dataSet: ArrayList<HourlyModel>?) :
     RecyclerView.Adapter<HourlyItemAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -31,7 +31,7 @@ class HourlyItemAdapter(private val dataSet: Array<HourlyModel>?) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val hour = dataSet?.get(position)?.dt
         viewHolder.hourInfoTv.text = hour.toString()
-        when(dataSet?.get(position)?.weather?.get(0)?.icon){
+        when (dataSet?.get(position)?.weather?.get(0)?.icon) {
             "01d" -> viewHolder.weatherIv.setImageResource(R.drawable._01d)
             "01n" -> viewHolder.weatherIv.setImageResource(R.drawable._01n)
             "02d" -> viewHolder.weatherIv.setImageResource(R.drawable._02d)

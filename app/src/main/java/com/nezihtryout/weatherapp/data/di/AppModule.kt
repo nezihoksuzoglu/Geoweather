@@ -4,7 +4,7 @@ import android.content.Context
 import com.huawei.hms.location.LocationRequest
 import com.nezihtryout.weatherapp.application.BaseApplication
 import com.nezihtryout.weatherapp.data.domain.WeatherServices
-import com.nezihtryout.weatherapp.util.baseURL
+import com.nezihtryout.weatherapp.util.Constants.baseURL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,21 +21,21 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideApplication(@ApplicationContext app: Context): BaseApplication{
+    fun provideApplication(@ApplicationContext app: Context): BaseApplication {
         return app as BaseApplication
     }
 
     @Singleton
     @Provides
-    fun provideWeatherApi() : WeatherServices = Retrofit.Builder()
-            .baseUrl(baseURL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(WeatherServices::class.java)
+    fun provideWeatherApi(): WeatherServices = Retrofit.Builder()
+        .baseUrl(baseURL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(WeatherServices::class.java)
 
     @Singleton
     @Provides
-    fun provideLocationRequest() : LocationRequest{
+    fun provideLocationRequest(): LocationRequest {
         val mLocationRequest = LocationRequest()
         mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         mLocationRequest.numUpdates = 1

@@ -11,10 +11,10 @@ import com.huawei.hms.maps.model.LatLng
 import com.huawei.hms.maps.model.Marker
 import com.huawei.hms.maps.model.MarkerOptions
 import com.nezihtryout.weatherapp.databinding.FragmentMapBinding
+import com.nezihtryout.weatherapp.util.Constants.huaweiAPIKey
+import com.nezihtryout.weatherapp.util.Coordinates.latitude
+import com.nezihtryout.weatherapp.util.Coordinates.longitude
 import com.nezihtryout.weatherapp.util.PermissionManager
-import com.nezihtryout.weatherapp.util.huaweiAPIKey
-import com.nezihtryout.weatherapp.util.latitude
-import com.nezihtryout.weatherapp.util.longitude
 
 
 class MapFragment : Fragment() {
@@ -29,7 +29,7 @@ class MapFragment : Fragment() {
 
     private var hMap: HuaweiMap? = null
     private lateinit var mMapView: MapView
-    private lateinit var locationValue : Array<Double>
+    private lateinit var locationValue: Array<Double>
 
     private var mMarker: Marker? = null
 
@@ -37,35 +37,42 @@ class MapFragment : Fragment() {
 
         Log.d(TAG, "callback:")
         hMap = huaweiMap
-        if (latitude != -500.0 && longitude != -500.0){
+        if (latitude != -500.0 && longitude != -500.0) {
             locationValue = arrayOf(latitude, longitude)
         }
-        if (hMap != null){
+        if (hMap != null) {
             hMap?.isMyLocationEnabled = false
             hMap?.mapType = HuaweiMap.MAP_TYPE_TERRAIN
-            if (hMap?.uiSettings != null){
-                hMap?.uiSettings?.setLogoPadding(0,0,0,100)
+            if (hMap?.uiSettings != null) {
+                hMap?.uiSettings?.setLogoPadding(0, 0, 0, 100)
             }
-            hMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(locationValue[0], locationValue[1]), 10f))
-            val obj = PermissionManager()
-            obj.hasLocationPermission(requireContext(),requireActivity())
+            hMap?.moveCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    LatLng(
+                        locationValue[0],
+                        locationValue[1]
+                    ), 10f
+                )
+            )
+            val permissionManager = PermissionManager()
+            permissionManager.hasLocationPermission(requireContext(), requireActivity())
             addMarker(locationValue)
             hMap?.setOnMapClickListener {
-                if(mMarker != null){
+                if (mMarker != null) {
                     mMarker?.position = it
                 }
             }
         }
     }
 
-    private fun addMarker(locationValue : Array<Double>){
-        if (mMarker != null){
+    private fun addMarker(locationValue: Array<Double>) {
+        if (mMarker != null) {
             mMarker?.remove()
         }
         // Get current location
         val options = MarkerOptions()
-            .position(LatLng(locationValue[0],locationValue[1]))
-            //.draggable(true)
+            .position(LatLng(locationValue[0], locationValue[1]))
+        //.draggable(true)
         mMarker = hMap?.addMarker(options)
     }
 
@@ -88,12 +95,12 @@ class MapFragment : Fragment() {
         return binding.root
     }
 
-    private fun onClicks(){
-        binding.mapFragmentButton.setOnClickListener{
-            if (mMarker?.position?.latitude != null && mMarker?.position?.longitude != null){
+    private fun onClicks() {
+        binding.mapFragmentButton.setOnClickListener {
+            if (mMarker?.position?.latitude != null && mMarker?.position?.longitude != null) {
                 latitude = mMarker?.position?.latitude!!
                 longitude = mMarker?.position?.longitude!!
-                if (activity != null){
+                if (activity != null) {
                     requireActivity().onBackPressed()
                 }
             }
