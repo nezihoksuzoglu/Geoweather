@@ -3,6 +3,6 @@
 
 https://user-images.githubusercontent.com/82642977/171638481-73ed5846-464a-4d9a-aec6-e28cbcf79972.mp4
 
-# HUAWEI Kits in Project
-- Location Kit
-- Map Kit
+# Implemented Kits in Project
+-  HUAWEI Map Kit
+-  [Advanced Location Kit](https://github.com/talhaoz/advanced-location) for HUAWEI
