@@ -6,5 +6,3 @@ https://user-images.githubusercontent.com/82642977/171638481-73ed5846-464a-4d9a-
 # Implemented Kits in Project
 -  HUAWEI Map Kit
 -  [Advanced Location Kit](https://github.com/talhaoz/advanced-location) for HUAWEI
--  Retrofit
--  Hilt
