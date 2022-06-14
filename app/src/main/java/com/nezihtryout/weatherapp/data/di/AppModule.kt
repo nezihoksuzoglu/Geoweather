@@ -1,10 +1,9 @@
 package com.nezihtryout.weatherapp.data.di
 
 import android.content.Context
-import com.huawei.hms.location.LocationRequest
 import com.nezihtryout.weatherapp.application.BaseApplication
 import com.nezihtryout.weatherapp.data.domain.WeatherServices
-import com.nezihtryout.weatherapp.util.Constants.baseURL
+import com.nezihtryout.weatherapp.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,17 +27,8 @@ object AppModule {
     @Singleton
     @Provides
     fun provideWeatherApi(): WeatherServices = Retrofit.Builder()
-        .baseUrl(baseURL)
+        .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(WeatherServices::class.java)
-
-    @Singleton
-    @Provides
-    fun provideLocationRequest(): LocationRequest {
-        val mLocationRequest = LocationRequest()
-        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        mLocationRequest.numUpdates = 1
-        return mLocationRequest
-    }
 }

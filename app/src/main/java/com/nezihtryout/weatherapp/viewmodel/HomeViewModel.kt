@@ -1,5 +1,6 @@
 package com.nezihtryout.weatherapp.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,22 +23,16 @@ class HomeViewModel @Inject constructor(
 
     private val _resultInfo: MutableLiveData<Result<CityModel>> = MutableLiveData()
     val resultInfo: LiveData<Result<CityModel>> get() = _resultInfo
-
-
     private val TAG = "viewModel"
 
     fun readWeatherViewModel(lat: Double, lon: Double) {
         viewModelScope.launch(Dispatchers.IO) {
             when (val APIResponse = repository.readWeatherFromAPI(lat, lon)) {
-                is Result.Error -> {
-
-                }
+                is Result.Error -> Log.d(TAG, "Weather API Returns Error")
                 is Result.Success -> _locationTaskInfo.postValue(APIResponse)
             }
             when (val APIResponse = repository.readCityNameFromAPI(lat, lon)) {
-                is Result.Error -> {
-
-                }
+                is Result.Error -> Log.d(TAG, "City Name API Returns Error")
                 is Result.Success -> _resultInfo.postValue(APIResponse)
             }
         }

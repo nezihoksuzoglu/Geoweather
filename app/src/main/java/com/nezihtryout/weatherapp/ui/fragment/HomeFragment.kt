@@ -2,7 +2,6 @@ package com.nezihtryout.weatherapp.ui.fragment
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.huawei.hmf.tasks.OnSuccessListener
-import com.huawei.hms.location.LocationRequest
-import com.huawei.hms.location.LocationServices
+import com.hms.advancedlocationlibrary.AdvancedLocation
 import com.nezihtryout.weatherapp.R
 import com.nezihtryout.weatherapp.adapter.DailyItemAdapter
 import com.nezihtryout.weatherapp.adapter.HourlyItemAdapter
@@ -21,13 +18,13 @@ import com.nezihtryout.weatherapp.data.Result
 import com.nezihtryout.weatherapp.data.model.WeatherModel
 import com.nezihtryout.weatherapp.data.model.submodels.CityModel
 import com.nezihtryout.weatherapp.databinding.FragmentHomeBinding
+import com.nezihtryout.weatherapp.util.Constants.BASE_LATITUDE
+import com.nezihtryout.weatherapp.util.Constants.BASE_LONGITUDE
 import com.nezihtryout.weatherapp.util.Coordinates.latitude
 import com.nezihtryout.weatherapp.util.Coordinates.longitude
-import com.nezihtryout.weatherapp.util.LocationManagerClass
 import com.nezihtryout.weatherapp.util.PermissionManager
 import com.nezihtryout.weatherapp.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -35,9 +32,6 @@ class HomeFragment : Fragment() {
     // View Binding
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-
-    @Inject
-    lateinit var mLocationRequest: LocationRequest
 
     private val viewModel: HomeViewModel by viewModels()
 
@@ -59,9 +53,8 @@ class HomeFragment : Fragment() {
             binding.fragmentErrorConstraint.visibility = View.GONE
             binding.fragmentHomeConnectedConstraint.visibility = View.VISIBLE
             // If there is no specific location granted
-            if (latitude == -500.0 && longitude == -500.0) {
+            if (latitude == BASE_LATITUDE && longitude == BASE_LONGITUDE) {
                 askLocationPermission()
-                checkLocationSettings()
                 setOnClicks()
                 getLocation()
             } else {
@@ -72,7 +65,10 @@ class HomeFragment : Fragment() {
 
         // If there is no Internet Connection
         else {
-            errorScreen("There is no internet connection", "Check Connection")
+            errorScreen(
+                resources.getString(R.string.internet_error_tv_text),
+                resources.getString(R.string.internet_error_button_text)
+            )
         }
     }
 
@@ -97,7 +93,10 @@ class HomeFragment : Fragment() {
 
         val cityObserver = Observer<Result<CityModel>> { cityModel ->
             if (binding.placeTv.text.equals(null)) {
-                errorScreen("API Connection Error", "Try Again")
+                errorScreen(
+                    resources.getString(R.string.api_error_tv_text),
+                    resources.getString(R.string.api_error_button_text)
+                )
             } else {
                 binding.placeTv.text = cityModel.data?.name
             }
@@ -106,10 +105,16 @@ class HomeFragment : Fragment() {
 
         val weatherObserver = Observer<Result<WeatherModel>> { weatherModel ->
             if (binding.degreeTv.text.equals(null)) {
-                errorScreen("API Connection Error", "Try Again")
+                errorScreen(
+                    resources.getString(R.string.api_error_tv_text),
+                    resources.getString(R.string.api_error_button_text)
+                )
             } else {
                 // Creating UI
                 binding.degreeTv.text = weatherModel.data?.current?.temp.toString()
+
+                binding.topDivider.visibility = View.VISIBLE
+                binding.bottomDivider.visibility = View.VISIBLE
 
                 // Adapters
                 val adapterHourly = HourlyItemAdapter(weatherModel.data?.hourly)
@@ -135,33 +140,16 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun checkLocationSettings() {
-        val settingsClient = LocationServices.getSettingsClient(context)
-        mLocationRequest = LocationRequest()
-        val locationManagerClass = LocationManagerClass()
-        locationManagerClass.checkLocationData(mLocationRequest, settingsClient)
-    }
-
 
     private fun getLocation() {
-        val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
-        val TAG = "getLocation()"
-        val lastLocation = fusedLocationProviderClient.lastLocation
-        lastLocation.addOnSuccessListener(OnSuccessListener { location ->
-            if (location == null) {
-                Log.d(TAG, "Location is null.")
-                return@OnSuccessListener
-            }
-            Log.d(TAG, "Location data secured.")
-            latitude = location.latitude
-            longitude = location.longitude
+        val advancedLocation = AdvancedLocation()
+        advancedLocation.getLastLocation(requireActivity()) {
+            val locationData = it.value
+            latitude = locationData.latitude
+            longitude = locationData.longitude
+            println("Latitude = $latitude Longitude = $longitude")
             initObservers(latitude, longitude)
-            return@OnSuccessListener
-        })
-            // Define callback for failure in obtaining the last known location.
-            .addOnFailureListener {
-                Log.d(TAG, "lastLocation.onFailure")
-            }
+        }
     }
 
     override fun onDestroyView() {

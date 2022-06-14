@@ -11,7 +11,9 @@ import com.huawei.hms.maps.model.LatLng
 import com.huawei.hms.maps.model.Marker
 import com.huawei.hms.maps.model.MarkerOptions
 import com.nezihtryout.weatherapp.databinding.FragmentMapBinding
-import com.nezihtryout.weatherapp.util.Constants.huaweiAPIKey
+import com.nezihtryout.weatherapp.util.Constants.BASE_LATITUDE
+import com.nezihtryout.weatherapp.util.Constants.BASE_LONGITUDE
+import com.nezihtryout.weatherapp.util.Constants.HUAWEI_API_KEY
 import com.nezihtryout.weatherapp.util.Coordinates.latitude
 import com.nezihtryout.weatherapp.util.Coordinates.longitude
 import com.nezihtryout.weatherapp.util.PermissionManager
@@ -33,25 +35,28 @@ class MapFragment : Fragment() {
 
     private var mMarker: Marker? = null
 
+    private val ZOOM_LEVEL = 10f
+    private val LOGO_HEIGHT = 150
+
     private val callback = OnMapReadyCallback { huaweiMap ->
 
         Log.d(TAG, "callback:")
         hMap = huaweiMap
-        if (latitude != -500.0 && longitude != -500.0) {
+        if (latitude != BASE_LATITUDE && longitude != BASE_LONGITUDE) {
             locationValue = arrayOf(latitude, longitude)
         }
         if (hMap != null) {
             hMap?.isMyLocationEnabled = false
             hMap?.mapType = HuaweiMap.MAP_TYPE_TERRAIN
             if (hMap?.uiSettings != null) {
-                hMap?.uiSettings?.setLogoPadding(0, 0, 0, 100)
+                hMap?.uiSettings?.setLogoPadding(0, 0, 0, LOGO_HEIGHT)
             }
             hMap?.moveCamera(
                 CameraUpdateFactory.newLatLngZoom(
                     LatLng(
                         locationValue[0],
                         locationValue[1]
-                    ), 10f
+                    ), ZOOM_LEVEL
                 )
             )
             val permissionManager = PermissionManager()
@@ -72,7 +77,6 @@ class MapFragment : Fragment() {
         // Get current location
         val options = MarkerOptions()
             .position(LatLng(locationValue[0], locationValue[1]))
-        //.draggable(true)
         mMarker = hMap?.addMarker(options)
     }
 
@@ -83,7 +87,7 @@ class MapFragment : Fragment() {
     ): View {
         Log.d(TAG, "onCreateView:")
         _binding = FragmentMapBinding.inflate(inflater, container, false)
-        MapsInitializer.setApiKey(huaweiAPIKey)
+        MapsInitializer.setApiKey(HUAWEI_API_KEY)
         mMapView = binding.huaweiMapView
         var mapViewBundle: Bundle? = null
         if (savedInstanceState != null) {

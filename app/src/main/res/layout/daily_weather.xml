@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/day_tv"
         android:layout_width="100dp"
-        android:textColor="@color/white"
+        android:textColor="@color/primary_color"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_10sp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -27,7 +27,7 @@
 
     <TextView
         android:id="@+id/day_deg_tv"
-        android:textColor="@color/white"
+        android:textColor="@color/primary_color"
         android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_10sp"
@@ -37,7 +37,7 @@
 
     <TextView
         android:id="@+id/night_deg_tv"
-        android:textColor="@color/white_60percent"
+        android:textColor="@color/primary_color_60percent"
         android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_10sp"

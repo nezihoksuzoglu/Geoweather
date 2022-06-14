@@ -5,9 +5,9 @@ import com.nezihtryout.weatherapp.data.Result
 import com.nezihtryout.weatherapp.data.domain.WeatherServices
 import com.nezihtryout.weatherapp.data.model.WeatherModel
 import com.nezihtryout.weatherapp.data.model.submodels.CityModel
-import com.nezihtryout.weatherapp.util.Constants.apiKey
-import com.nezihtryout.weatherapp.util.Constants.oneCallAPIFormat
-import com.nezihtryout.weatherapp.util.Constants.weatherDataUnit
+import com.nezihtryout.weatherapp.util.Constants.ONE_CALL_API_FORMAT
+import com.nezihtryout.weatherapp.util.Constants.WEATHER_API_KEY
+import com.nezihtryout.weatherapp.util.Constants.WEATHER_DATA_UNIT
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -18,9 +18,19 @@ class HomeRepository @Inject constructor(
     private val api: WeatherServices
 ) {
     private val TAG: String = "repo"
+    private val RAW_TIME_TO_HOUR_SEC_VAL: Long = 86400
+    private val RAW_TIME_TO_HOUR_DIV: Long = 3600
+    private val SECOND_TO_MILLISECOND: Long = 1000
+
     suspend fun readWeatherFromAPI(lat: Double, lon: Double): Result<WeatherModel> {
         return try {
-            val response = api.getWeatherData(lat, lon, oneCallAPIFormat, apiKey, weatherDataUnit)
+            val response = api.getWeatherData(
+                lat,
+                lon,
+                ONE_CALL_API_FORMAT,
+                WEATHER_API_KEY,
+                WEATHER_DATA_UNIT
+            )
             val result = response.body()
             if (response.isSuccessful && result != null)
                 Result.Success(editData(result))
@@ -33,7 +43,7 @@ class HomeRepository @Inject constructor(
 
     suspend fun readCityNameFromAPI(lat: Double, lon: Double): Result<CityModel> {
         return try {
-            val response = api.getCurrentWeather(lat, lon, apiKey)
+            val response = api.getCurrentWeather(lat, lon, WEATHER_API_KEY)
             val result = response.body()
             if (response.isSuccessful && result != null)
                 Result.Success(result)
@@ -90,13 +100,13 @@ class HomeRepository @Inject constructor(
     }
 
     private fun editTimeDataToHour(value: Long): Long {
-        return value.rem(86400).div(3600)
+        return value.rem(RAW_TIME_TO_HOUR_SEC_VAL).div(RAW_TIME_TO_HOUR_DIV)
     }
 
     private fun editDailyTimeData(data: String): String {
         return try {
             val sdf = SimpleDateFormat("EEEE")
-            val dateFormat = Date(data.toLong().times(1000))
+            val dateFormat = Date(data.toLong().times(SECOND_TO_MILLISECOND))
             sdf.format(dateFormat)
         } catch (e: Exception) {
             Log.d(TAG, e.message ?: "An error occurred at editDailyTimeData")

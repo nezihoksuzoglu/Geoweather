@@ -2,6 +2,7 @@
 <resources>
     <!-- Margins -->
     <dimen name="margin_10sp">10sp</dimen>
+    <dimen name="margin_15sp">15sp</dimen>
     <dimen name="margin_20sp">20sp</dimen>
     <dimen name="margin_40sp">40sp</dimen>
 

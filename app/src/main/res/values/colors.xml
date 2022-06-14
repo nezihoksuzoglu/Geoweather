@@ -10,4 +10,9 @@
     <color name="white_60percent">#99FFFFFF</color>
     <color name="sky_blue">#00C0FF</color>
     <color name="sky_blue_60percent">#9900C0FF</color>
+
+    <color name="primary_color">#275aab</color>
+    <color name="primary_color_60percent">#99275aab</color>
+    <color name="primary_color_20percent">#33275aab</color>
+    <color name="secondary_color">#e2dce3</color>
 </resources>
