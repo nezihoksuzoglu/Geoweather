@@ -14,7 +14,6 @@ class PermissionManager {
     private val TAG = "permMgr"
 
     fun hasLocationPermission(context: Context, activity: Activity) {
-        // Dynamically apply for required permissions if the API level is 28 or smaller.
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
             Log.i(TAG, "android sdk <= 28 Q")
             if (ActivityCompat.checkSelfPermission(
