@@ -67,6 +67,11 @@ class MapFragment : Fragment() {
                     mMarker?.position = it
                 }
             }
+            hMap?.setOnPoiClickListener {
+                if (mMarker != null){
+                    mMarker?.position = it.latLng
+                }
+            }
         }
     }
 

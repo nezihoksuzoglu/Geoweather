@@ -90,47 +90,52 @@ class HomeFragment : Fragment() {
 
     private fun initObservers(lat: Double, lon: Double) {
         viewModel.readWeatherViewModel(lat, lon)
-
-        val cityObserver = Observer<Result<CityModel>> { cityModel ->
-            if (binding.placeTv.text.equals(null)) {
-                errorScreen(
-                    resources.getString(R.string.api_error_tv_text),
-                    resources.getString(R.string.api_error_button_text)
-                )
-            } else {
-                binding.placeTv.text = cityModel.data?.name
-            }
-        }
-        viewModel.resultInfo.observe(viewLifecycleOwner, cityObserver)
-
-        val weatherObserver = Observer<Result<WeatherModel>> { weatherModel ->
-            if (binding.degreeTv.text.equals(null)) {
-                errorScreen(
-                    resources.getString(R.string.api_error_tv_text),
-                    resources.getString(R.string.api_error_button_text)
-                )
-            } else {
+        viewModel.weatherState.observe(viewLifecycleOwner){
+            it.weatherModel?.let { WeatherModel ->
                 // Creating UI
-                binding.degreeTv.text = weatherModel.data?.current?.temp.toString()
+                binding.degreeTv.text = WeatherModel.current?.temp.toString()
 
                 binding.topDivider.visibility = View.VISIBLE
                 binding.bottomDivider.visibility = View.VISIBLE
 
                 // Adapters
-                val adapterHourly = HourlyItemAdapter(weatherModel.data?.hourly)
+                val adapterHourly = HourlyItemAdapter(WeatherModel.hourly)
                 val linearLayoutManagerHourly =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                 binding.hourlyRecyclerView.layoutManager = linearLayoutManagerHourly
                 binding.hourlyRecyclerView.adapter = adapterHourly
 
-                val adapterDaily = DailyItemAdapter(weatherModel.data?.daily)
+                val adapterDaily = DailyItemAdapter(WeatherModel.daily)
                 val linearLayoutManagerDaily =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
                 binding.dailyRecyclerView.layoutManager = linearLayoutManagerDaily
                 binding.dailyRecyclerView.adapter = adapterDaily
             }
+            when {
+                it.error -> errorScreen(
+                    resources.getString(R.string.api_error_tv_text),
+                    resources.getString(R.string.api_error_button_text)
+                )
+                it.loading -> {
+
+                }
+            }
         }
-        viewModel.locationTaskInfo.observe(viewLifecycleOwner, weatherObserver)
+
+        viewModel.cityState.observe(viewLifecycleOwner){
+            it.cityModel?.let { CityModel ->
+                binding.placeTv.text = CityModel.name
+            }
+            when{
+                it.error -> errorScreen(
+                    resources.getString(R.string.api_error_tv_text),
+                    resources.getString(R.string.api_error_button_text)
+                )
+                it.loading -> {
+
+                }
+            }
+        }
     }
 
     private fun askLocationPermission() {
