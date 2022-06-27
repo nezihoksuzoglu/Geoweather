@@ -152,7 +152,6 @@ class HomeFragment : Fragment() {
             val locationData = it.value
             latitude = locationData.latitude
             longitude = locationData.longitude
-            println("Latitude = $latitude Longitude = $longitude")
             initObservers(latitude, longitude)
         }
     }
